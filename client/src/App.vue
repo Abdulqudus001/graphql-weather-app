@@ -2,7 +2,7 @@
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 
-const { result, loading } = useQuery(gql`
+const { result, loading, error } = useQuery(gql`
   query getWeather {
     weather
   }
@@ -14,7 +14,10 @@ const { result, loading } = useQuery(gql`
     <div v-if="loading" class="loading">
       Loading <div class="spinner"></div>
     </div>
-    <div v-else>
+    <div v-else-if="error">
+      Oops, looks like we can't get the weather details
+    </div>
+    <div v-else-if="result">
       Right now it is {{ result.weather }} degrees in LA
     </div>
   </main>
