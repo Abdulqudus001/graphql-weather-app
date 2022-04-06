@@ -1,12 +1,20 @@
 <script setup>
+import { computed } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 
-const { result, loading, error } = useQuery(gql`
+const { result, loading, error, refetch } = useQuery(gql`
   query getWeather {
     weather
   }
-`)
+`, null, { notifyOnNetworkStatusChange: true })
+
+const weather = computed(() => {
+  if (result.value) {
+    return result.value.weather
+  }
+  return null
+})
 </script>
 
 <template>
@@ -17,8 +25,9 @@ const { result, loading, error } = useQuery(gql`
     <div v-else-if="error">
       Oops, looks like we can't get the weather details
     </div>
-    <div v-else-if="result">
-      Right now it is {{ result.weather }} degrees in LA
+    <div v-else-if="weather">
+      Right now it is {{ weather }} degrees in LA
+      <button @click="refetch()" class="refetch">Update</button>
     </div>
   </main>
 </template>
@@ -58,5 +67,14 @@ const { result, loading, error } = useQuery(gql`
   border: 3px solid var(--vt-c-indigo);
   border-top-color: var(--color-primary);
   animation: spin 1s linear infinite;
+}
+
+.refetch {
+  background: var(--color-primary);
+  border: none;
+  padding: 10px 30px;
+  display: block;
+  margin: 10px auto;
+  border-radius: 5px;
 }
 </style>
