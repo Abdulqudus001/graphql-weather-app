@@ -1,26 +1,32 @@
 <script setup>
-import { computed } from 'vue'
-import { useQuery } from '@vue/apollo-composable'
-import gql from 'graphql-tag'
+import { computed } from 'vue';
+import { useQuery } from '@vue/apollo-composable';
+import gql from 'graphql-tag';
 
-const { result, loading, error, refetch } = useQuery(gql`
-  query getWeather {
-    weather
-  }
-`, null, { notifyOnNetworkStatusChange: true })
+const { result, loading, error, refetch } = useQuery(
+  gql`
+    query getWeather {
+      weather
+    }
+  `,
+  null,
+  // notifyOnNetworkStatusChange allows the loading status to become true when the update button is clicked
+  { notifyOnNetworkStatusChange: true }
+);
 
 const weather = computed(() => {
   if (result.value) {
-    return result.value.weather
+    return result.value.weather;
   }
-  return null
-})
+  return null;
+});
 </script>
 
 <template>
   <main>
     <div v-if="loading" class="loading">
-      Loading <div class="spinner"></div>
+      Loading
+      <div class="spinner"></div>
     </div>
     <div v-else-if="error">
       Oops, looks like we can't get the weather details
