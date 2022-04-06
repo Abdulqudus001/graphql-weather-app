@@ -1,7 +1,5 @@
 <script setup>
 import { useQuery } from '@vue/apollo-composable'
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
 import gql from 'graphql-tag'
 
 const { result, loading } = useQuery(gql`
@@ -12,16 +10,8 @@ const { result, loading } = useQuery(gql`
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
   <main>
-    <TheWelcome />
+    Hello World
   </main>
 </template>
 
