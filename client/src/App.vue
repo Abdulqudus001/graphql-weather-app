@@ -11,7 +11,12 @@ const { result, loading } = useQuery(gql`
 
 <template>
   <main>
-    Hello World
+    <div v-if="loading" class="loading">
+      Loading <div class="spinner"></div>
+    </div>
+    <div v-else>
+      Right now it is {{ result.weather }} degrees in LA
+    </div>
   </main>
 </template>
 
@@ -21,59 +26,34 @@ const { result, loading } = useQuery(gql`
 #app {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
-
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2rem;
   font-weight: normal;
 }
 
-header {
-  line-height: 1.5;
+.loading {
+  display: flex;
+  align-items: center;
+  color: var(--color-primary);
+  font-weight: 500;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+.spinner {
+  width: 25px;
+  height: 25px;
+  margin-left: 10px;
+  border-radius: 50%;
+  border: 3px solid var(--vt-c-indigo);
+  border-top-color: var(--color-primary);
+  animation: spin 1s linear infinite;
 }
 </style>
